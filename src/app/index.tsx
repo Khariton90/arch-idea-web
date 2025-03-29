@@ -9,6 +9,7 @@ import { AuthorizationStatus } from '@/entities/session/model/types'
 import { useAppDispatch, useAppSelector } from '@/shared'
 import { delay } from '@/shared/lib'
 import { clearSessionData } from '@/entities/session/model'
+import { Navigation } from '@/widgets/Navigation'
 import './globals.scss'
 
 export function LayoutBase({ children }: { children: React.ReactNode }) {
@@ -25,13 +26,14 @@ function Page({ children }: { children: React.ReactNode }) {
 	const authStatus = useAppSelector(
 		({ sessionSlice }) => sessionSlice.isAuthorized
 	)
+	const isUnknownAuth = authStatus === AuthorizationStatus.Unknown
 
 	const fetchToken = async () => {
 		const token = getToken()
 		await delay()
 
 		try {
-			if (token && authStatus === AuthorizationStatus.Unknown) {
+			if (token) {
 				await sendRefreshToken(token)
 			} else {
 				dispatch(clearSessionData())
@@ -43,16 +45,22 @@ function Page({ children }: { children: React.ReactNode }) {
 	}
 
 	useEffect(() => {
-		fetchToken()
+		if (isUnknownAuth) {
+			fetchToken()
+		}
 	}, [])
 
 	if (authStatus === AuthorizationStatus.Unknown) {
-		return <h1>Загрузка...</h1>
+		return (
+			<div className='container flex-center vh-100'>
+				<h1 className='center'>Загрузка...</h1>
+			</div>
+		)
 	}
 
 	return (
 		<div className='page'>
-			<LayoutHeader />
+			<LayoutHeader navigationSlot={<Navigation />} />
 			{children}
 			<LayoutFooter />
 		</div>

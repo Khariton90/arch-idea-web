@@ -2,8 +2,13 @@ import styles from './IdeaCard.module.scss'
 import ThumbUpIcon from '@mui/icons-material/ThumbUp'
 import ThumbDownIcon from '@mui/icons-material/ThumbDown'
 import { Chip, Stack } from '@mui/material'
+import { IdeaRdo } from '../model'
 
-export function IdeaCard() {
+interface Props {
+	idea: IdeaRdo
+}
+
+export function IdeaCard({ idea }: Props) {
 	return (
 		<div className={styles.card}>
 			<div className={styles.header}>
@@ -14,11 +19,8 @@ export function IdeaCard() {
 				</a>
 			</div>
 			<div className={styles.body}>
-				<h2 className={styles.title}>Заголовок</h2>
-				<p className={styles.text}>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias
-					labore et ratione qui explicabo. Atque corrupti deserunt saepe at ut.
-				</p>
+				<h2 className={styles.title}>{idea.title}</h2>
+				<p className={styles.text}>{idea.description}</p>
 
 				<Stack direction='column' spacing={1}>
 					<Chip

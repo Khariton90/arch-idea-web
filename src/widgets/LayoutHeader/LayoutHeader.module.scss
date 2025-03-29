@@ -1,27 +1,7 @@
-$primary: #ffba4e;
-$secondary: #333;
-$background: #191919;
-$backdrop: #0a0a0a;
-$text: #eee;
-$border: #444;
-$shadow: #eeeeee;
-$success: #43a047;
-
 .wrapper {
 	display: flex;
 	align-items: center;
 	height: inherit;
 	justify-content: space-between;
 	padding: 10px 0;
-}
-
-.navList {
-	display: flex;
-	gap: 24px;
-}
-
-.navLink {
-	&:hover {
-		color: $primary;
-	}
 }
