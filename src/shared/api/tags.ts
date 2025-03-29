@@ -1,0 +1,7 @@
+export const IDEA_TAG = 'IDEA_TAG'
+export const SESSION_TAG = 'SESSION_TAG'
+export const WISHLIST_TAG = 'WISHLIST_TAG'
+export const COMMENT_TAG = 'COMMENT_TAG'
+export const VOTE_TAG = 'VOTE_TAG'
+export const USER_TAG = 'USER_TAG'
+export const ONE_IDEA = 'ONE_IDEA'

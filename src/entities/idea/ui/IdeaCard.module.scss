@@ -1,0 +1,51 @@
+$primary: #ffba4e;
+$secondary: #333;
+$background: #191919;
+$backdrop: #0a0a0a;
+$text: #eee;
+$border: #444;
+$shadow: #eeeeee;
+$success: #43a047;
+
+.card {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 340px;
+	min-height: 200px;
+	border-radius: 10px;
+	padding: 16px 20px;
+	gap: 8px;
+	margin-bottom: 20px;
+	overflow: hidden;
+	background-color: $background;
+	color: $text;
+	box-shadow: 0 0 2px $shadow;
+}
+
+.header {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.body {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	align-items: flex-start;
+}
+
+.footer {
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px;
+}
+
+.title {
+	font-size: 20px;
+}
+
+.text {
+	font-size: 1rem;
+	opacity: 0.6;
+}
