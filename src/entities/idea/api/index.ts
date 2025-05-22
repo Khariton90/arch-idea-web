@@ -1,4 +1,4 @@
-import { CreateIdea, CreateIdeaSolution, UpdateIdeaDto } from './../model/types'
+import { CreateIdeaSolution, Idea, UpdateIdeaDto } from './../model/types'
 import { IdeaQuery, IdeaRdo } from '../model/types'
 import { IDEA_TAG, ONE_IDEA, VOTE_TAG, WISHLIST_TAG } from '@/shared/api/tags'
 import { createEntityAdapter } from '@reduxjs/toolkit'
@@ -73,7 +73,7 @@ export const ideaApi = baseApi.injectEndpoints({
 				transformResponse: (response: IdeaRdo) => mapIdea(response),
 			}),
 		}),
-		createIdea: build.mutation<IdeaRdo, CreateIdea>({
+		createIdea: build.mutation<IdeaRdo, Idea>({
 			query: dto => ({
 				url: '/idea/create',
 				method: 'POST',

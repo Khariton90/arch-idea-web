@@ -63,13 +63,6 @@ a {
 	min-height: 100vh;
 }
 
-.preview {
-	display: flex;
-	height: 100%;
-	align-items: center;
-	justify-content: space-between;
-}
-
 .title {
 	font-size: 3.2rem;
 
@@ -90,6 +83,7 @@ a {
 .left {
 	display: flex;
 	flex-direction: column;
+	align-items: flex-start;
 	gap: 24px;
 }
 

@@ -12,10 +12,26 @@ import { clearSessionData } from '@/entities/session/model'
 import { Navigation } from '@/widgets/Navigation'
 import './globals.scss'
 
+import { createTheme, ThemeProvider } from '@mui/material'
+import { Roboto } from 'next/font/google'
+
+const theme = createTheme({
+	palette: {
+		primary: {
+			main: '#ffba4e',
+			contrastText: '#191919',
+		},
+	},
+})
+
+const roboto = Roboto({ subsets: ['cyrillic'] })
+
 export function LayoutBase({ children }: { children: React.ReactNode }) {
 	return (
 		<ReduxProvider>
-			<Page>{children}</Page>
+			<ThemeProvider theme={theme}>
+				<Page>{children}</Page>
+			</ThemeProvider>
 		</ReduxProvider>
 	)
 }
@@ -59,7 +75,7 @@ function Page({ children }: { children: React.ReactNode }) {
 	}
 
 	return (
-		<div className='page'>
+		<div className={`${roboto.className} page`}>
 			<LayoutHeader navigationSlot={<Navigation />} />
 			{children}
 			<LayoutFooter />

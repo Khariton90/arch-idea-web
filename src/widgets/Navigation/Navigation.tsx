@@ -29,19 +29,14 @@ export function Navigation() {
 						/>
 						<NavLink
 							title='Список идей'
-							href='/Admin'
-							active={router.pathname === '/Admin'}
-						/>
-						<NavLink
-							title='Избранное'
-							href='/Favorites'
-							active={router.pathname === '/Favorites'}
+							href='/dashboard'
+							active={router.pathname === '/dashboard'}
 						/>
 
 						<NavLink onPress={logout} title='Выйти' href='/' outlined />
 					</>
 				) : (
-					<NavLink title='Войти' href='SignIn' outlined />
+					<NavLink title='Войти' href='signIn' outlined />
 				)}
 			</ul>
 		</nav>

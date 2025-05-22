@@ -7,10 +7,9 @@ export const userApi = baseApi.injectEndpoints({
 	endpoints: build => ({
 		findTotalCount: build.query<number, void>({
 			query: () => ({
-				url: '/user/totalCount',
+				url: '/idea/totalCount',
 			}),
 		}),
-
 		fetchUsers: build.query<UserListDto, UserQuery>({
 			query: params => ({
 				url: '/user/all',

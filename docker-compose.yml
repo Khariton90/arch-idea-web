@@ -1,0 +1,8 @@
+services:
+  method.web:
+    container_name: method.web
+    image: arch-idea-web:latest
+    env_file:
+      - '.env'
+    ports:
+      - 80:80

@@ -1,0 +1,16 @@
+.right {
+	display: none;
+}
+
+@media (min-width: 1024px) {
+	.preview {
+		display: flex;
+		height: 100%;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.right {
+		display: flex;
+	}
+}

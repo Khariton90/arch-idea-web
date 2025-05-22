@@ -27,7 +27,9 @@ export function SignInForm() {
 	}
 
 	const handleSubmit = async () => {
-		await signIn(form)
+		if (form.login && form.password) {
+			await signIn(form)
+		}
 	}
 
 	useEffect(() => {
@@ -51,22 +53,38 @@ export function SignInForm() {
 						type='text'
 						placeholder='Логин'
 						onChange={handleChange}
+						required
 					/>
 					<input
 						name='password'
 						className='input'
-						type='text'
+						type='password'
 						placeholder='Пароль'
 						onChange={handleChange}
+						required
 					/>
-					<Button
-						disabled={isLoading}
-						onClick={handleSubmit}
-						variant='contained'
-						sx={{ background: '#ffba4e', color: '#000' }}
-					>
-						Войти
-					</Button>
+					{form.login && form.password ? (
+						<Button
+							disabled={isLoading}
+							onClick={handleSubmit}
+							variant='contained'
+							sx={{ background: '#ffba4e', color: '#000', padding: '16px' }}
+						>
+							Войти
+						</Button>
+					) : (
+						<Button
+							variant='contained'
+							sx={{
+								background: '#ffba4e',
+								color: '#000',
+								opacity: 0.5,
+								padding: '16px',
+							}}
+						>
+							Войти
+						</Button>
+					)}
 				</form>
 			</div>
 		</main>

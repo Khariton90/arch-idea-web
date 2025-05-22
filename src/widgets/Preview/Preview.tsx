@@ -2,6 +2,8 @@ import { PhoneImage, useAppSelector } from '@/shared'
 import { PhoneVideo } from '../PhoneVideo'
 import Link from 'next/link'
 import { AuthorizationStatus } from '@/entities/session/model'
+import { Button } from '@mui/material'
+import styles from './styles.module.scss'
 
 export function Preview() {
 	const isAuth = useAppSelector(
@@ -10,8 +12,8 @@ export function Preview() {
 
 	return (
 		<main className='main'>
-			<div className='container'>
-				<section className='preview'>
+			<div className={`container ${styles.container}`}>
+				<section className={styles.preview}>
 					<div className='left'>
 						<h1 className='title'>
 							<strong>ARCH IDEA </strong> <br /> На кончиках пальцев рождаются{' '}
@@ -26,17 +28,32 @@ export function Preview() {
 						</p>
 
 						{isAuth ? (
-							<button className='req__btn'>
-								<Link href='Admin'>Перейти к идеям</Link>
-							</button>
+							<Link href='newIdea'>
+								<Button
+									sx={{ padding: '16px 80px' }}
+									size='large'
+									variant='contained'
+									color={'primary'}
+								>
+									Добавить новую идею
+								</Button>
+							</Link>
 						) : (
-							<button className='req__btn'>
-								<Link href='SignIn'>Войти</Link>
-							</button>
+							<Link href={'signUp'}>
+								<Button
+									sx={{ padding: '16px 80px' }}
+									size='large'
+									variant='contained'
+									color={'primary'}
+									type='button'
+								>
+									Зарегистрироваться
+								</Button>
+							</Link>
 						)}
 					</div>
 
-					<div className='right'>
+					<div className={`right ${styles.right}`}>
 						<div className='phone-container'>
 							<PhoneImage />
 							<PhoneVideo />

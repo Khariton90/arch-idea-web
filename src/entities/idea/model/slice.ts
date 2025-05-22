@@ -11,13 +11,22 @@ const initialState: State = {
 	myIdeasCount: 0,
 	totalCount: 0,
 	currentFilter: {
-		page: 0,
-		limit: 9,
+		page: 1,
+		limit: 6,
 	},
 }
 
 export const ideaSlice = createSlice({
 	name: 'ideaSlice',
 	initialState,
-	reducers: {},
+	reducers: {
+		changePage(state, action) {
+			state.currentFilter.page = action.payload
+		},
+		setTotalCount(state, action) {
+			state.totalCount = action.payload
+		},
+	},
 })
+
+export const { changePage, setTotalCount } = ideaSlice.actions

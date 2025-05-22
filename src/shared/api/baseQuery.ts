@@ -1,8 +1,5 @@
 import { selectToken } from '@/entities/session/model/slice'
 import { fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-
-export const BASE_URL = 'http://localhost:3000/api'
-
 import {
 	BaseQueryFn,
 	FetchArgs,

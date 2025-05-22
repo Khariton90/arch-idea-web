@@ -6,9 +6,17 @@ export const sessionApi = baseApi.injectEndpoints({
 	endpoints: build => ({
 		signIn: build.mutation<AuthRdo, SignInForm>({
 			query: dto => ({
-				url: '/session/signIn',
+				url: '/auth/login',
 				method: 'POST',
-				body: dto,
+				body: { ...dto, modelName: 'web' },
+			}),
+			invalidatesTags: [SESSION_TAG],
+		}),
+		signUp: build.mutation<unknown, { message: string }>({
+			query: dto => ({
+				url: '/session/register',
+				method: 'POST',
+				body: { message: dto.message },
 			}),
 			invalidatesTags: [SESSION_TAG],
 		}),
@@ -24,4 +32,8 @@ export const sessionApi = baseApi.injectEndpoints({
 	}),
 })
 
-export const { useSignInMutation, useSendRefreshTokenMutation } = sessionApi
+export const {
+	useSignInMutation,
+	useSendRefreshTokenMutation,
+	useSignUpMutation,
+} = sessionApi
