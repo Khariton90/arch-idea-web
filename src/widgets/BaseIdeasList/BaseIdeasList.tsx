@@ -23,23 +23,44 @@ export function BaseIdeasList() {
 		}
 	}, [dispatch, totalCount])
 
-	console.log(totalCount)
+	if (!totalCount) {
+		return <></>
+	}
+
+	const pageCount = Math.ceil(totalCount / 6)
 
 	return (
-		<>
-			<div className='baseIdeasList'>
-				{ideas && ideas.map(idea => <IdeaCard idea={idea} key={idea.id} />)}
-			</div>
+		<main className='main'>
+			<div className='container'>
+				<div className='baseIdeasList'>
+					{ideas && ideas.map(idea => <IdeaCard idea={idea} key={idea.id} />)}
+				</div>
 
-			{totalCount && (
-				<Pagination
-					className='pagination'
-					count={Math.floor(totalCount / 6)}
-					variant='outlined'
-					shape='rounded'
-					onChange={handleChange}
-				/>
-			)}
-		</>
+				{totalCount && (
+					<Pagination
+						className='pagination'
+						count={pageCount}
+						variant='outlined'
+						shape='rounded'
+						sx={{
+							background:
+								'linear-gradient(135deg, #000 0%, #282828 50%, #000 100%)',
+							'& .MuiPaginationItem-outlined': {
+								color: '#fff',
+								bgcolor: '#000',
+								borderColor: '#555',
+							},
+							'.css-ptck8z-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected':
+								{
+									color: '#ffba4e',
+									border: '1px solid #ffba4e',
+								},
+						}}
+						page={query.page}
+						onChange={handleChange}
+					/>
+				)}
+			</div>
+		</main>
 	)
 }

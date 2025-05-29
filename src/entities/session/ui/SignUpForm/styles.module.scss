@@ -4,7 +4,6 @@
 	position: fixed;
 	top: 0;
 	left: 0;
-
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -15,13 +14,13 @@
 }
 
 .form {
-	background-color: #000;
-	border: 1px solid #444;
+	border: 1px solid #282828;
 	height: 500px;
 	margin: auto;
 	padding: 20px;
-	border-radius: 20px;
+	border-radius: 6px;
 	width: 400px;
+	background: linear-gradient(135deg, #282828 0%, #000 30% 70%, #282828 100%);
 }
 
 .message {

@@ -64,15 +64,14 @@ a {
 }
 
 .title {
-	font-size: 3.2rem;
-
+	font-size: 2rem;
 	& strong {
 		color: $primary;
 	}
 }
 
 .subtitle {
-	font-size: 1.2rem;
+	font-size: 1rem;
 }
 
 .left,
@@ -145,12 +144,11 @@ a {
 }
 
 .baseIdeasList {
-	display: flex;
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 20px;
 	margin: 0 auto;
-	max-width: 1200px;
-	justify-content: center;
-	column-gap: 20px;
-	flex-wrap: wrap;
+	padding-block: 0 20px;
 }
 
 .cardItem {
@@ -159,23 +157,10 @@ a {
 }
 
 .pagination {
-	color: $text !important;
-
 	display: flex;
 	justify-content: flex-end;
-	max-width: 1200px;
-	margin: 0 auto;
-	background-color: $background;
-	padding: 10px 0;
-	box-shadow: 0 0 2px $primary;
-
-	& li {
-		color: $text !important;
-	}
-
-	& button {
-		color: $text !important;
-	}
+	padding: 10px;
+	border: 1px solid #282828;
 }
 
 .form {
@@ -194,4 +179,53 @@ a {
 	border: 1px solid $secondary;
 	background-color: transparent;
 	color: $text;
+}
+
+input,
+textarea {
+	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+	padding: 16px;
+	background-color: #393939;
+	color: #fff;
+	border-radius: 4px;
+	resize: none;
+	width: 100%;
+}
+
+.MuiStack-root.css-pl8gqh-MuiStack-root {
+	flex-direction: column !important;
+	align-items: flex-end !important;
+	gap: 4px;
+}
+
+.adminCard {
+	background: linear-gradient(135deg, #acacac 0%, #e2e2e2 50%, #acacac 100%);
+	padding: 30px;
+	border-radius: 6px;
+}
+
+@media (min-width: 1024px) {
+	.title {
+		font-size: 4rem;
+	}
+
+	.subtitle {
+		font-size: 1.4rem;
+	}
+
+	.baseIdeasList {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.MuiStack-root.css-pl8gqh-MuiStack-root {
+		flex-direction: row !important;
+		align-items: flex-start !important;
+		gap: 0;
+	}
+}
+
+@media (min-width: 1400px) {
+	.baseIdeasList {
+		grid-template-columns: repeat(3, 1fr);
+	}
 }

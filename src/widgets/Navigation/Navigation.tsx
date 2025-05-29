@@ -1,14 +1,18 @@
 import styles from './styles.module.scss'
 import { dropToken } from '@/entities/session/lib'
-import { AuthorizationStatus, clearSessionData } from '@/entities/session/model'
+import {
+	AuthorizationStatus,
+	clearSessionData,
+	UserRole,
+} from '@/entities/session/model'
 import { useAppSelector, useAppDispatch } from '@/shared'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 export function Navigation() {
-	const isAuth = useAppSelector(
-		({ sessionSlice }) => sessionSlice.isAuthorized === AuthorizationStatus.Auth
-	)
+	const sessionSlice = useAppSelector(({ sessionSlice }) => sessionSlice)
+	const role = useAppSelector(({ userSlice }) => userSlice.role)
+	const isAuth = sessionSlice.isAuthorized === AuthorizationStatus.Auth
 	const router = useRouter()
 	const dispatch = useAppDispatch()
 
@@ -27,8 +31,15 @@ export function Navigation() {
 							href='/'
 							active={router.pathname === '/'}
 						/>
+						{role !== UserRole.User ? (
+							<NavLink
+								title='Управление'
+								href='/admin'
+								active={router.pathname === '/admin'}
+							/>
+						) : null}
 						<NavLink
-							title='Список идей'
+							title='Идеи'
 							href='/dashboard'
 							active={router.pathname === '/dashboard'}
 						/>

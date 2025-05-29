@@ -1,10 +1,20 @@
 import { UserListDto, UserDto, UserOptionsDto } from '@/entities/session/model'
 import { baseApi } from '@/shared/api'
 import { SESSION_TAG, USER_TAG } from '@/shared/api/tags'
-import { UserQuery, UpdateUserDto } from '../model/types'
+import {
+	UserQuery,
+	UpdateUserDto,
+	UserSessions,
+	StatDataset,
+} from '../model/types'
 
 export const userApi = baseApi.injectEndpoints({
 	endpoints: build => ({
+		findDepartmentTotalCount: build.query<number, void>({
+			query: () => ({
+				url: '/department/totalCount',
+			}),
+		}),
 		findTotalCount: build.query<number, void>({
 			query: () => ({
 				url: '/idea/totalCount',
@@ -41,6 +51,22 @@ export const userApi = baseApi.injectEndpoints({
 			},
 			providesTags: [SESSION_TAG],
 		}),
+		getSessions: build.query<UserSessions[], void>({
+			query() {
+				return {
+					url: '/user/sessions',
+					method: 'GET',
+				}
+			},
+		}),
+		getStatistic: build.query<StatDataset[], void>({
+			query() {
+				return {
+					url: '/stat',
+					method: 'GET',
+				}
+			},
+		}),
 	}),
 })
 
@@ -50,4 +76,7 @@ export const {
 	useUpdateUserOptionsMutation,
 	useFindTotalCountQuery,
 	useGetAccountQuery,
+	useGetSessionsQuery,
+	useFindDepartmentTotalCountQuery,
+	useGetStatisticQuery,
 } = userApi

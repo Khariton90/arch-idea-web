@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import ReduxProvider from './reduxProvider'
 import { LayoutHeader } from '@/widgets/LayoutHeader'
 import { LayoutFooter } from '@/widgets/LayoutFooter'
@@ -21,6 +21,11 @@ const theme = createTheme({
 			main: '#ffba4e',
 			contrastText: '#191919',
 		},
+
+		action: {
+			disabledBackground: '#282828',
+			disabled: '#fff',
+		},
 	},
 })
 
@@ -37,14 +42,18 @@ export function LayoutBase({ children }: { children: React.ReactNode }) {
 }
 
 function Page({ children }: { children: React.ReactNode }) {
-	const [sendRefreshToken, {}] = useSendRefreshTokenMutation()
+	const [sendRefreshToken] = useSendRefreshTokenMutation()
 	const dispatch = useAppDispatch()
 	const authStatus = useAppSelector(
 		({ sessionSlice }) => sessionSlice.isAuthorized
 	)
 	const isUnknownAuth = authStatus === AuthorizationStatus.Unknown
 
-	const fetchToken = async () => {
+	const fetchToken = useCallback(async () => {
+		if (!isUnknownAuth) {
+			return
+		}
+
 		const token = getToken()
 		await delay()
 
@@ -58,13 +67,11 @@ function Page({ children }: { children: React.ReactNode }) {
 			console.error(error)
 			dispatch(clearSessionData())
 		}
-	}
+	}, [dispatch, isUnknownAuth, sendRefreshToken])
 
 	useEffect(() => {
-		if (isUnknownAuth) {
-			fetchToken()
-		}
-	}, [])
+		fetchToken()
+	}, [fetchToken])
 
 	if (authStatus === AuthorizationStatus.Unknown) {
 		return (

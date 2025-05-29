@@ -5,7 +5,10 @@ import {
 	FetchBaseQueryMeta,
 	QueryReturnValue,
 } from '@reduxjs/toolkit/query'
-import { baseQuery } from './baseQuery'
+import { BASE_URL, baseQuery } from './baseQuery'
+import axios from 'axios'
+import { AuthRdo, setSessionData } from '@/entities/session/model'
+import { saveToken } from '@/entities/session/lib'
 
 type ExtraOptions = {
 	headers?: Record<string, string>
@@ -17,6 +20,17 @@ export async function baseQueryWithReauth(
 	api: BaseQueryApi,
 	extraOptions: ExtraOptions
 ): Promise<QueryReturnValue<unknown, FetchBaseQueryError, FetchBaseQueryMeta>> {
-	const result = await baseQuery(args, api, extraOptions)
+	let result = await baseQuery(args, api, extraOptions)
+	if (result.error && result.error.status === 401) {
+		try {
+			const { data } = await axios.post<AuthRdo>(`${BASE_URL}/auth/refresh`, {})
+			saveToken(data.refresh_token)
+			api.dispatch(setSessionData(data))
+			result = await baseQuery(args, api, extraOptions)
+		} catch {
+			console.error('Error')
+		}
+	}
+
 	return result
 }

@@ -28,3 +28,15 @@ export interface UserQuery {
 	sortDirection?: string
 	department?: LocationDepartment
 }
+
+export interface UserSessions {
+	id: string
+	createdAt: Date
+}
+
+export interface StatDataset {
+	users: number
+	comments: number
+	ideas: number
+	month: string
+}

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { AuthorizationStatus } from '@/entities/session/model'
 import { Button } from '@mui/material'
 import styles from './styles.module.scss'
+import { useGetAccountQuery } from '@/entities/user/api'
 
 export function Preview() {
 	const isAuth = useAppSelector(
@@ -20,7 +21,7 @@ export function Preview() {
 							<strong>идеи</strong>
 						</h1>
 						<p className='subtitle'>
-							Приложение для эффективного взаимодействия между отделами. Удобный
+							Мобильное приложение для эффективного взаимодействия. Удобный
 							инструмент для коллективной работы над идеями, обсуждения проектов
 							и координации действий. Все идеи собраны в одном месте, что
 							упрощает процесс принятия решений и способствует развитию
@@ -28,16 +29,7 @@ export function Preview() {
 						</p>
 
 						{isAuth ? (
-							<Link href='newIdea'>
-								<Button
-									sx={{ padding: '16px 80px' }}
-									size='large'
-									variant='contained'
-									color={'primary'}
-								>
-									Добавить новую идею
-								</Button>
-							</Link>
+							<AuthBlock />
 						) : (
 							<Link href={'signUp'}>
 								<Button
@@ -62,5 +54,21 @@ export function Preview() {
 				</section>
 			</div>
 		</main>
+	)
+}
+
+function AuthBlock() {
+	useGetAccountQuery()
+	return (
+		<Link href='newIdea'>
+			<Button
+				sx={{ padding: '16px 80px' }}
+				size='large'
+				variant='contained'
+				color={'primary'}
+			>
+				Добавить новую идею
+			</Button>
+		</Link>
 	)
 }

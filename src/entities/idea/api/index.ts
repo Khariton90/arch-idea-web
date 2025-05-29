@@ -13,6 +13,12 @@ const ideasSelector = ideasAdapter.getSelectors()
 
 export const ideaApi = baseApi.injectEndpoints({
 	endpoints: build => ({
+		findAllIdeaCount: build.query<number, void>({
+			query: () => ({
+				url: `/idea/allCount`,
+				method: 'GET',
+			}),
+		}),
 		findTotalCountIdeas: build.query<number, IdeaQuery>({
 			query: queryParams => ({
 				url: `/idea/totalCount`,
@@ -69,7 +75,7 @@ export const ideaApi = baseApi.injectEndpoints({
 					result: unknown,
 					error: unknown,
 					arg: Pick<IdeaRdo, 'id'>
-				) => [{ type: ONE_IDEA, id: arg.id }],
+				) => [IDEA_TAG, { type: ONE_IDEA, id: arg.id }],
 				transformResponse: (response: IdeaRdo) => mapIdea(response),
 			}),
 		}),
@@ -102,6 +108,12 @@ export const ideaApi = baseApi.injectEndpoints({
 				transformResponse: (response: IdeaRdo) => mapIdea(response),
 			}),
 		}),
+		getIdeaStatistic: build.query<{ [key: string]: number }, void>({
+			query: () => ({
+				url: '/idea/statistic',
+				method: 'GET',
+			}),
+		}),
 	}),
 })
 
@@ -115,6 +127,8 @@ export const {
 	useCreateIdeaSolutionMutation,
 	useUploadImageMutation,
 	useUpdateIdeaMutation,
+	useGetIdeaStatisticQuery,
+	useFindAllIdeaCountQuery,
 } = ideaApi
 
 export { ideasSelector, ideasAdapter }

@@ -1,52 +1,51 @@
-'use server'
 import { LayoutLogo } from '@/shared/ui'
-import { Button } from '@mui/material'
-
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
-import { useAppSelector } from '@/shared'
-import { AuthorizationStatus } from '../../model/types'
+import { Button, Checkbox, FormControlLabel } from '@mui/material'
+import { useEffect, useState } from 'react'
 import Router from 'next/router'
 import styles from './styles.module.scss'
 import { useSignUpMutation } from '../../api'
 import { delay } from '@/shared/lib'
+import { useForm, SubmitHandler } from 'react-hook-form'
 
-interface Form {
+type Form = {
 	email?: string
 	firstName?: string
 	lastName?: string
+	isAnonim?: boolean
 }
 
 export function SignUpForm() {
-	const [form, setForm] = useState<Form>({})
+	const [isAnonym, setIsAnonim] = useState(false)
+	const [signUp, { isSuccess, isError, isLoading }] = useSignUpMutation()
 
-	const authStatus = useAppSelector(
-		({ sessionSlice }) => sessionSlice.isAuthorized
-	)
+	const {
+		register,
+		handleSubmit,
+		formState: { isValid },
+	} = useForm<Form>()
 
-	const [signUp, { isSuccess }] = useSignUpMutation()
+	const onSubmit: SubmitHandler<Form> = async data => {
+		const message = isAnonym
+			? JSON.stringify({ email: data.email, isAnonym }, null, 2)
+			: JSON.stringify({ ...data, isAnonym }, null, 2)
 
-	const isAuth = authStatus === AuthorizationStatus.Auth
-
-	const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
-		setForm(prevForm => ({ ...prevForm, [evt.target.name]: evt.target.value }))
+		await signUp({
+			message,
+		})
 	}
 
-	const isRequired = form.email && form.firstName && form.lastName
-
-	const handleSubmit = async (evt: FormEvent) => {
-		evt.preventDefault()
-		if (isRequired) {
-			await signUp({ message: JSON.stringify(form, null, 2) })
-			await delay(3000)
+	const redirect = async () => {
+		if (isSuccess) {
+			await delay(4000)
 			Router.push('/')
 		}
 	}
 
 	useEffect(() => {
-		if (isAuth) {
-			Router.push('/')
+		if (isSuccess) {
+			redirect()
 		}
-	}, [isAuth])
+	}, [isSuccess])
 
 	return (
 		<div className={styles.backdrop}>
@@ -54,58 +53,67 @@ export function SignUpForm() {
 				<form
 					className={`form  ${styles.form}`}
 					autoComplete='off'
-					onSubmit={handleSubmit}
+					onSubmit={handleSubmit(onSubmit)}
 				>
 					<LayoutLogo />
 					<input
-						name='email'
 						className='input'
 						type='email'
 						placeholder='Рабочий email'
-						onChange={handleChange}
+						{...register('email', { required: true, minLength: 8 })}
 						required
 					/>
-					<input
-						name='lastName'
-						className='input'
-						type='text'
-						placeholder='Фамилия'
-						required
-						onChange={handleChange}
-					/>
+					{!isAnonym ? (
+						<>
+							<input
+								className='input'
+								type='text'
+								placeholder='Фамилия'
+								{...register('lastName', { required: !isAnonym, minLength: 4 })}
+							/>
 
-					<input
-						name='firstName'
-						className='input'
-						type='text'
-						placeholder='Имя'
-						required
-						onChange={handleChange}
+							<input
+								className='input'
+								type='text'
+								placeholder='Имя'
+								required
+								{...register('firstName', {
+									required: !isAnonym,
+									minLength: 4,
+								})}
+							/>
+						</>
+					) : null}
+					<FormControlLabel
+						onChange={() => {
+							setIsAnonim(prev => !prev)
+						}}
+						value={isAnonym}
+						sx={{
+							'& .MuiSvgIcon-root': {
+								color: '#ffba4e',
+							},
+						}}
+						control={<Checkbox checked={isAnonym} />}
+						label='Анонимный пользователь'
 					/>
-
-					{isSuccess || !isRequired ? (
-						<Button
-							variant='contained'
-							sx={{
-								background: '#ffba4e',
-								color: '#000',
-								opacity: 0.5,
-								padding: '16px',
-							}}
-						>
-							Отправить заявку
-						</Button>
-					) : (
-						<Button
-							variant='contained'
-							sx={{ background: '#ffba4e', color: '#000', padding: '16px' }}
-							disabled={!isRequired}
-							type='submit'
-						>
-							Отправить заявку
-						</Button>
-					)}
+					<Button
+						disabled={isLoading || !isValid}
+						variant='contained'
+						type={isLoading ? 'button' : 'submit'}
+						sx={{
+							padding: '16px',
+						}}
+					>
+						Отправить заявку
+					</Button>
 				</form>
+				{isError && (
+					<div className={styles.message}>
+						<p>Ошибка</p>
+					</div>
+				)}
+
 				{isSuccess && (
 					<div className={styles.message}>
 						<h2>Заявка принята</h2>

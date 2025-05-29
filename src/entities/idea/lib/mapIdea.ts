@@ -47,3 +47,7 @@ export function mapIdea(idea: IdeaRdo): IdeaRdo {
 		department: mappingDepartment[idea.department as LocationDepartment],
 	}
 }
+
+export function mapIdeaStatus(status: string) {
+	return mappingStatus[status as IdeaStatus]
+}

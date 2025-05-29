@@ -1,42 +1,38 @@
 import { LayoutLogo } from '@/shared/ui'
 import { Button } from '@mui/material'
 import { useSignInMutation } from '../../api'
-import { ChangeEvent, useEffect, useState } from 'react'
 import { useAppSelector } from '@/shared'
 import { AuthorizationStatus } from '../../model/types'
 import Router from 'next/router'
+import styles from './styles.module.scss'
+import { useForm, SubmitHandler } from 'react-hook-form'
+
+type Inputs = {
+	login: string
+	password: string
+}
 
 export function SignInForm() {
+	const {
+		register,
+		handleSubmit,
+		formState: { errors, isValid },
+	} = useForm<Inputs>()
+	const [signIn, { isError, isSuccess }] = useSignInMutation()
+
 	const authStatus = useAppSelector(
 		({ sessionSlice }) => sessionSlice.isAuthorized
 	)
 
 	const isAuth = authStatus === AuthorizationStatus.Auth
 
-	const [signIn, { isLoading }] = useSignInMutation()
-	const [form, setForm] = useState({
-		login: '',
-		password: '',
-	})
-
-	const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
-		setForm(prev => ({
-			...prev,
-			[evt.target.name]: evt.target.value,
-		}))
+	const onSubmit: SubmitHandler<Inputs> = async data => {
+		await signIn(data).then(res => {
+			if (!res.error) {
+				Router.push('/')
+			}
+		})
 	}
-
-	const handleSubmit = async () => {
-		if (form.login && form.password) {
-			await signIn(form)
-		}
-	}
-
-	useEffect(() => {
-		if (isAuth) {
-			Router.push('/')
-		}
-	})
 
 	if (isAuth) {
 		return <main className='main'></main>
@@ -45,45 +41,41 @@ export function SignInForm() {
 	return (
 		<main className='main'>
 			<div className='container flex-center'>
-				<form className='form' autoComplete='off'>
+				<form
+					className={`${styles.form} form`}
+					autoComplete='off'
+					onSubmit={handleSubmit(onSubmit)}
+				>
 					<LayoutLogo />
 					<input
-						name='login'
 						className='input'
 						type='text'
+						autoComplete='off'
 						placeholder='Логин'
-						onChange={handleChange}
-						required
+						{...register('login', { required: true, minLength: 4 })}
 					/>
+					{errors.password && <span>Обязательное поле</span>}
 					<input
-						name='password'
-						className='input'
 						type='password'
 						placeholder='Пароль'
-						onChange={handleChange}
-						required
+						className='input'
+						autoComplete='off'
+						{...register('password', { required: true, minLength: 6 })}
 					/>
-					{form.login && form.password ? (
-						<Button
-							disabled={isLoading}
-							onClick={handleSubmit}
-							variant='contained'
-							sx={{ background: '#ffba4e', color: '#000', padding: '16px' }}
-						>
-							Войти
-						</Button>
-					) : (
-						<Button
-							variant='contained'
-							sx={{
-								background: '#ffba4e',
-								color: '#000',
-								opacity: 0.5,
-								padding: '16px',
-							}}
-						>
-							Войти
-						</Button>
+					{errors.password && <span>Обязательное поле</span>}
+
+					<Button
+						disabled={!isValid}
+						variant='contained'
+						type={isSuccess ? 'button' : 'submit'}
+						color='primary'
+						sx={{ padding: '16px' }}
+					>
+						Войти
+					</Button>
+
+					{isError && (
+						<span style={{ textAlign: 'center' }}>Ошибка авторизации</span>
 					)}
 				</form>
 			</div>
