@@ -9,7 +9,24 @@ $success: #43a047;
 
 html,
 body {
-	background-color: $backdrop;
+	background: $backdrop;
+}
+
+.MuiInputBase-input:-webkit-autofill,
+.MuiInputBase-input:-webkit-autofill:focus,
+.MuiInputBase-input:-webkit-autofill:hover {
+	transition-delay: 9999s; /* предотвращает мерцание */
+	box-shadow: none !important;
+	background-color: transparent !important;
+	color: inherit !important;
+}
+
+/* Для Firefox */
+.MuiInputBase-input:-moz-autofill,
+.MuiInputBase-input:-moz-autofill:focus,
+.MuiInputBase-input:-moz-autofill:hover {
+	background-color: transparent !important;
+	color: inherit !important;
 }
 
 body {
@@ -173,31 +190,6 @@ a {
 	gap: 20px;
 }
 
-.input {
-	padding: 20px 10px;
-	border-radius: 10px;
-	border: 1px solid $secondary;
-	background-color: transparent;
-	color: $text;
-}
-
-input,
-textarea {
-	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-	padding: 16px;
-	background-color: #393939;
-	color: #fff;
-	border-radius: 4px;
-	resize: none;
-	width: 100%;
-}
-
-.MuiStack-root.css-pl8gqh-MuiStack-root {
-	flex-direction: column !important;
-	align-items: flex-end !important;
-	gap: 4px;
-}
-
 .adminCard {
 	background: linear-gradient(135deg, #acacac 0%, #e2e2e2 50%, #acacac 100%);
 	padding: 30px;
@@ -215,12 +207,7 @@ textarea {
 
 	.baseIdeasList {
 		grid-template-columns: repeat(2, 1fr);
-	}
-
-	.MuiStack-root.css-pl8gqh-MuiStack-root {
-		flex-direction: row !important;
-		align-items: flex-start !important;
-		gap: 0;
+		height: 100%;
 	}
 }
 

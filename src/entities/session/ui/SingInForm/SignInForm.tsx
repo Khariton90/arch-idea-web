@@ -1,5 +1,5 @@
 import { LayoutLogo } from '@/shared/ui'
-import { Button } from '@mui/material'
+import { Button, TextField } from '@mui/material'
 import { useSignInMutation } from '../../api'
 import { useAppSelector } from '@/shared'
 import { AuthorizationStatus } from '../../model/types'
@@ -47,21 +47,27 @@ export function SignInForm() {
 					onSubmit={handleSubmit(onSubmit)}
 				>
 					<LayoutLogo />
-					<input
-						className='input'
-						type='text'
-						autoComplete='off'
-						placeholder='Логин'
+					<TextField
 						{...register('login', { required: true, minLength: 4 })}
+						type='text'
+						required
+						fullWidth
+						placeholder='Логин'
+						label='Логин'
+						autoComplete='off'
 					/>
+
 					{errors.password && <span>Обязательное поле</span>}
-					<input
+					<TextField
+						{...register('password', { required: true, minLength: 6 })}
 						type='password'
 						placeholder='Пароль'
-						className='input'
+						required
+						fullWidth
 						autoComplete='off'
-						{...register('password', { required: true, minLength: 6 })}
+						label='Пароль'
 					/>
+
 					{errors.password && <span>Обязательное поле</span>}
 
 					<Button
@@ -69,7 +75,7 @@ export function SignInForm() {
 						variant='contained'
 						type={isSuccess ? 'button' : 'submit'}
 						color='primary'
-						sx={{ padding: '16px' }}
+						size='large'
 					>
 						Войти
 					</Button>

@@ -32,6 +32,7 @@ export function UsersDataset() {
 		<div className={styles.usersDataset}>
 			{dataset ? (
 				<BarChart
+					colors={['#8b2836', '#ffba4e', 'green']}
 					// eslint-disable-next-line @typescript-eslint/no-explicit-any
 					dataset={dataset as any}
 					xAxis={[{ dataKey: 'month', label: dayjs().format('YYYY') }]}

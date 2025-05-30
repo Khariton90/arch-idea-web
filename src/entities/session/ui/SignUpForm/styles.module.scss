@@ -13,17 +13,51 @@
 	z-index: 1000000;
 }
 
+.wrapper {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	gap: 20px;
+}
+
 .form {
 	border: 1px solid #282828;
-	height: 500px;
 	margin: auto;
 	padding: 20px;
 	border-radius: 6px;
 	width: 400px;
-	background: linear-gradient(135deg, #282828 0%, #000 30% 70%, #282828 100%);
 }
 
 .message {
 	padding: 20px;
 	text-align: center;
+}
+
+.roomWrapper {
+	max-width: 1440px;
+	width: 100%;
+	text-align: center;
+
+	& .rooms {
+		display: flex;
+		gap: 10px;
+		flex-wrap: wrap;
+		margin: 40px 0;
+	}
+
+	& .roomItem {
+		width: 23%;
+		height: 200px;
+		background-color: #282828;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		cursor: pointer;
+
+		&:nth-child(5) {
+			order: 1;
+		}
+	}
 }

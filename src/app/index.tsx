@@ -10,21 +10,28 @@ import { useAppDispatch, useAppSelector } from '@/shared'
 import { delay } from '@/shared/lib'
 import { clearSessionData } from '@/entities/session/model'
 import { Navigation } from '@/widgets/Navigation'
+import { ToastContainer } from 'react-toastify'
 import './globals.scss'
 
 import { createTheme, ThemeProvider } from '@mui/material'
 import { Roboto } from 'next/font/google'
 
-const theme = createTheme({
+const darkTheme = createTheme({
 	palette: {
+		mode: 'dark',
 		primary: {
 			main: '#ffba4e',
-			contrastText: '#191919',
 		},
-
-		action: {
-			disabledBackground: '#282828',
-			disabled: '#fff',
+	},
+	components: {
+		MuiInputBase: {
+			styleOverrides: {
+				root: {
+					'&.Mui-focused': {
+						backgroundColor: 'transparent !important', // Прозрачный фон активного поля
+					},
+				},
+			},
 		},
 	},
 })
@@ -34,7 +41,8 @@ const roboto = Roboto({ subsets: ['cyrillic'] })
 export function LayoutBase({ children }: { children: React.ReactNode }) {
 	return (
 		<ReduxProvider>
-			<ThemeProvider theme={theme}>
+			<ToastContainer theme='dark' position='bottom-right' autoClose={5000} />
+			<ThemeProvider theme={darkTheme}>
 				<Page>{children}</Page>
 			</ThemeProvider>
 		</ReduxProvider>

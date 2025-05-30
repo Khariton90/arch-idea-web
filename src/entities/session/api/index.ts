@@ -1,5 +1,5 @@
 import { baseApi } from '@/shared/api'
-import { AuthRdo, SignInForm } from '../model/types'
+import { AuthRdo, CreateUserDto, SignInForm } from '../model/types'
 import { SESSION_TAG } from '@/shared/api/tags'
 
 export const sessionApi = baseApi.injectEndpoints({
@@ -12,11 +12,11 @@ export const sessionApi = baseApi.injectEndpoints({
 			}),
 			invalidatesTags: [SESSION_TAG],
 		}),
-		signUp: build.mutation<unknown, { message: string }>({
+		signUp: build.mutation<unknown, CreateUserDto>({
 			query: dto => ({
 				url: '/session/register',
 				method: 'POST',
-				body: { message: dto.message },
+				body: { ...dto },
 			}),
 			invalidatesTags: [SESSION_TAG],
 		}),

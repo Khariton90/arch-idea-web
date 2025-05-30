@@ -5,6 +5,7 @@ import {
 	MenuItem,
 	Select,
 	SelectChangeEvent,
+	TextField,
 } from '@mui/material'
 import styles from './IdeaCard.module.scss'
 import { ChangeEvent, FormEvent, useState } from 'react'
@@ -60,22 +61,21 @@ export function FormIdea() {
 				<p className={styles.sub}>
 					Ваш вклад важен — вместе мы сделаем сервис лучше!
 				</p>
-				<input
+
+				<TextField
 					name='title'
-					className={styles.inputTitle}
+					onChange={handleChange}
 					type='text'
 					placeholder='Заголовок'
 					required
-					onChange={handleChange}
+					fullWidth
+					autoComplete='off'
+					label='Заголовок'
+					className={styles.inputTitle}
 				/>
 
 				<FormControl fullWidth>
-					<InputLabel
-						htmlFor='category'
-						sx={{
-							color: '#fff',
-						}}
-					>
+					<InputLabel htmlFor='category' required>
 						Категория
 					</InputLabel>
 					<Select
@@ -83,10 +83,7 @@ export function FormIdea() {
 						id='category'
 						label='Категория'
 						name='subDepartment'
-						sx={{
-							background: '#393939',
-							color: '#fff',
-						}}
+						required
 						onChange={handleChangeSelect}
 					>
 						<MenuItem value={'Warehouse'}>Склад</MenuItem>
@@ -98,12 +95,7 @@ export function FormIdea() {
 					</Select>
 				</FormControl>
 				<FormControl fullWidth>
-					<InputLabel
-						htmlFor='priority-select'
-						sx={{
-							color: '#fff',
-						}}
-					>
+					<InputLabel htmlFor='priority-select' required>
 						Приоритет
 					</InputLabel>
 					<Select
@@ -111,10 +103,7 @@ export function FormIdea() {
 						id='priority-select'
 						label='Приоритет'
 						name='priority'
-						sx={{
-							background: '#393939',
-							color: '#fff',
-						}}
+						required
 						onChange={handleChangeSelect}
 					>
 						<MenuItem value={'Low'}>Низкий</MenuItem>

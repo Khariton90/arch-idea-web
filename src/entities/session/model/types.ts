@@ -69,3 +69,10 @@ export type SignInForm = {
 	password: string
 	modelName?: string
 }
+
+export type CreateUserDto = {
+	email: string
+	department: string
+	firstName?: string
+	lastName?: string
+}
