@@ -1,8 +1,21 @@
+@use '@/styles/_variables' as *;
+
 .right {
 	display: none;
 }
 
+.title {
+	font-size: 3rem;
+	& strong {
+		color: $primary;
+	}
+}
+
 @media (min-width: 1024px) {
+	.title {
+		font-size: 4rem;
+	}
+
 	.preview {
 		display: flex;
 		height: 100%;

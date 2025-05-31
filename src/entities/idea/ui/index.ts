@@ -1,3 +1,4 @@
 export * from './IdeaCard'
 export * from './formIdea'
-export * from './IdeaBaseCard'
+export * from './IdeaDetails/IdeaDetails'
+export * from './Chips/Chips'

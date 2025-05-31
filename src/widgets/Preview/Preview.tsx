@@ -16,7 +16,7 @@ export function Preview() {
 			<div className={`container ${styles.container}`}>
 				<section className={styles.preview}>
 					<div className='left'>
-						<h1 className='title'>
+						<h1 className={styles.title}>
 							<strong>ARCH IDEA </strong> <br /> На кончиках пальцев рождаются{' '}
 							<strong>идеи</strong>
 						</h1>

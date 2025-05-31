@@ -1,7 +1,5 @@
 import type { Metadata } from 'next'
 
-import './globals.scss'
-
 export const metadata: Metadata = {
 	title: 'ARCH IDEA',
 	description: 'ARCH IDEA - На кончиках пальцев рождаются идеи',

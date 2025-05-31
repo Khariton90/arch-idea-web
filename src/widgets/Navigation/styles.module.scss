@@ -1,11 +1,4 @@
-$primary: #ffba4e;
-$secondary: #333;
-$background: #191919;
-$backdrop: #0a0a0a;
-$text: #eee;
-$border: #444;
-$shadow: #eeeeee;
-$success: #43a047;
+@use '@/styles/_variables' as *;
 
 .navList {
 	display: flex;
@@ -19,6 +12,6 @@ $success: #43a047;
 }
 
 .active {
-	font-weight: bold;
+	font-weight: 600;
 	color: $primary;
 }

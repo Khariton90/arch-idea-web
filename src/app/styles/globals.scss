@@ -1,5 +1,5 @@
 $primary: #ffba4e;
-$secondary: #333;
+$secondary: #282828;
 $background: #191919;
 $backdrop: #0a0a0a;
 $text: #eee;
@@ -12,16 +12,21 @@ body {
 	background: $backdrop;
 }
 
+button {
+	background: none;
+	border: none;
+	cursor: pointer;
+}
+
 .MuiInputBase-input:-webkit-autofill,
 .MuiInputBase-input:-webkit-autofill:focus,
 .MuiInputBase-input:-webkit-autofill:hover {
-	transition-delay: 9999s; /* предотвращает мерцание */
+	transition-delay: 9999s;
 	box-shadow: none !important;
 	background-color: transparent !important;
 	color: inherit !important;
 }
 
-/* Для Firefox */
 .MuiInputBase-input:-moz-autofill,
 .MuiInputBase-input:-moz-autofill:focus,
 .MuiInputBase-input:-moz-autofill:hover {
@@ -54,7 +59,7 @@ a {
 .page {
 	display: grid;
 	grid-template-rows: auto 1fr auto;
-	gap: 40px;
+	gap: 80px;
 	min-height: 100vh;
 }
 
@@ -78,13 +83,6 @@ a {
 
 .vh-100 {
 	min-height: 100vh;
-}
-
-.title {
-	font-size: 2rem;
-	& strong {
-		color: $primary;
-	}
 }
 
 .subtitle {
@@ -197,10 +195,6 @@ a {
 }
 
 @media (min-width: 1024px) {
-	.title {
-		font-size: 4rem;
-	}
-
 	.subtitle {
 		font-size: 1.4rem;
 	}

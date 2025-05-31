@@ -1,6 +1,6 @@
 import { LayoutBase } from '@/app'
 import { useRouter } from 'next/router'
-import { IdeaBaseCard } from '@/entities/idea/ui'
+import { IdeaDetails } from '@/entities/idea/ui'
 
 export default function IdeaPage() {
 	const router = useRouter()
@@ -9,7 +9,7 @@ export default function IdeaPage() {
 	return (
 		<LayoutBase>
 			<main className='main'>
-				<div className='container'>{id && <IdeaBaseCard id={id} />}</div>
+				<div className='container'>{id && <IdeaDetails id={id} />}</div>
 			</main>
 		</LayoutBase>
 	)

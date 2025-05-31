@@ -1,38 +1,23 @@
 import { formatDate } from '@/shared/lib/formatDate'
-import styles from './IdeaCard.module.scss'
-import { useFindByIdeaIdQuery } from '../api'
-import { Stack, Chip, Button, TextareaAutosize } from '@mui/material'
+import styles from './styles.module.scss'
+import { useFindByIdeaIdQuery } from '../../api'
+import { Button, TextareaAutosize } from '@mui/material'
 import {
 	useCreateCommentMutation,
 	useFindCommentsQuery,
 } from '@/entities/comment'
 import { ChangeEvent, FormEvent, useState } from 'react'
-import { mapUserStatus } from '@/entities/user/lib/mapUser'
-import { CreateIdeaSolution } from './CreateIdeaSolution'
-import { useAppSelector } from '@/shared'
+import { useAppSelector, UserInfo } from '@/shared'
 import { UserRole } from '@/entities/session/model'
+import { SolutionDialog } from '../SolutionDialog'
+import { EmogiList } from '@/features'
+import { Chips } from '../Chips/Chips'
 
 interface Props {
 	id: string
 }
 
-const emojisUnicode = [
-	'\u{1F600}', // 😀
-	'\u{1F602}', // 😂
-	'\u{1F642}', // 🙂
-	'\u{1F621}', // 😡
-	'\u{1F611}', // 😕
-	'\u{1F620}', // 😤
-	'\u{1F44D}', // 👍
-	'\u{1F44E}', // 👎
-	'\u{1F64F}', // 🙏
-	'\u{1F64C}', // 🙌
-	'\u{1F4A9}', // 💩
-	'\u{1F44B}', // 👋
-	'💡',
-]
-
-export function IdeaBaseCard({ id }: Props) {
+export function IdeaDetails({ id }: Props) {
 	const [query, setQuery] = useState({
 		page: 1,
 		limit: 20,
@@ -68,7 +53,7 @@ export function IdeaBaseCard({ id }: Props) {
 		})
 	}
 
-	const addEmoji = (emoji: string) => {
+	const selectEmojiForComment = (emoji: string) => {
 		setComment(prev => prev + emoji)
 	}
 
@@ -77,43 +62,24 @@ export function IdeaBaseCard({ id }: Props) {
 	}
 
 	return (
-		<div className={styles.baseCard}>
+		<div className={styles.card}>
 			<div className={styles.top}>
 				<span>Опубликовано: {formatDate(idea.createdAt)}</span>
 
-				<Stack direction='row' spacing={2}>
-					<Chip
-						size='small'
-						label={`Статус: ${idea.status}`}
-						color='info'
-						sx={{ borderRadius: '4px' }}
-					/>
-				</Stack>
+				<UserInfo
+					status={idea.user.status}
+					firstName={idea.user.firstName}
+					lastName={idea.user.lastName}
+				/>
 			</div>
 
 			<div className={styles.middle}>
-				<div className={styles.user}>
-					<div className={styles.logo}>A</div>
-					<span>{mapUserStatus(idea.user.status)}</span>
-					<span>
-						{idea.user.firstName} {idea.user.lastName}
-					</span>
-				</div>
-
-				<Stack spacing={1} direction={'row'} className={styles.chips}>
-					<Chip
-						size='small'
-						label={`Категория: ${idea.subDepartment}`}
-						color='info'
-						sx={{ borderRadius: '4px' }}
-					/>
-					<Chip
-						size='small'
-						label={`Приоритет: ${idea.priority}`}
-						color='info'
-						sx={{ borderRadius: '4px' }}
-					/>
-				</Stack>
+				<Chips
+					size='medium'
+					status={idea.status}
+					priority={idea.priority}
+					subDepartment={idea.subDepartment}
+				/>
 			</div>
 
 			<div className={styles.bottom}>
@@ -121,18 +87,9 @@ export function IdeaBaseCard({ id }: Props) {
 
 				<p className={styles.p}>{idea.description}</p>
 			</div>
-			{/* 
-			<div className={styles.favorite} aria-label='Плашка подписки на канал'>
-				<div className='content--subscribe-banner__text-1o content--subscribe-banner__long-1H'>
-					<div>Добавьте публикацию в избранное</div>
-					<div>чтобы не пропустить решение и обсуждения</div>
-				</div>
-
-				<Button variant='contained'>В избранное</Button>
-			</div> */}
 
 			<div className={styles.solution}>
-				<h2 className={styles.h2}>Решение:</h2>
+				<h2 className={styles.h2}>Статус:</h2>
 				{!idea.solution ? (
 					<h3 className={styles.commentTitle}>
 						Пока тишина... Ждём вдохновения ⭐
@@ -140,7 +97,10 @@ export function IdeaBaseCard({ id }: Props) {
 				) : (
 					<h3 className={styles.commentTitle}>{idea.solution}</h3>
 				)}
-				{isAdmin ? <CreateIdeaSolution id={idea.id} refetch={refetch} /> : null}
+				{isAdmin ? (
+					<SolutionDialog idea={idea} id={idea.id} refetch={refetch} />
+				) : null}
+				{/* {isAdmin ? <CreateIdeaSolution id={idea.id} refetch={refetch} /> : null} */}
 			</div>
 
 			<div className={styles.comments}>
@@ -151,7 +111,7 @@ export function IdeaBaseCard({ id }: Props) {
 
 				<form className={styles.commentForm} onSubmit={handleSubmitMessage}>
 					<TextareaAutosize
-						className={styles.title}
+						className={styles.textArea}
 						placeholder='Комментарий'
 						name='comment'
 						value={comment}
@@ -165,33 +125,17 @@ export function IdeaBaseCard({ id }: Props) {
 						Отправить
 					</Button>
 				</form>
-				<div className={styles.emogi}>
-					{emojisUnicode.map(emoji => (
-						<a
-							href='#'
-							key={emoji}
-							onClick={evt => {
-								evt.preventDefault()
-								addEmoji(emoji)
-							}}
-						>
-							{emoji}
-						</a>
-					))}
-				</div>
+
+				<EmogiList selectEmojiForComment={selectEmojiForComment} />
 				<div className={styles.commentList}>
 					{comments?.totalCount ? (
 						comments.comments.map(comment => (
 							<div className={styles.commentItem} key={comment.id}>
-								<div className={styles.user}>
-									<div className={styles.logo}>
-										{comment.user.firstName.slice(0, 1)}
-									</div>
-									<span>{mapUserStatus(comment.user.status)}</span>
-									<span>
-										{comment.user.firstName} {comment.user.lastName}
-									</span>
-								</div>
+								<UserInfo
+									status={comment.user.status}
+									firstName={comment.user.firstName}
+									lastName={comment.user.lastName}
+								/>
 
 								<div className={styles.commentText}>{comment.content}</div>
 								<span className={styles.commentDate}>

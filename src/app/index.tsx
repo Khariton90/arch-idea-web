@@ -11,7 +11,7 @@ import { delay } from '@/shared/lib'
 import { clearSessionData } from '@/entities/session/model'
 import { Navigation } from '@/widgets/Navigation'
 import { ToastContainer } from 'react-toastify'
-import './globals.scss'
+import '@/styles/globals.scss'
 
 import { createTheme, ThemeProvider } from '@mui/material'
 import { Roboto } from 'next/font/google'

@@ -8,8 +8,7 @@ import {
 } from '@reduxjs/toolkit/query'
 import { RootState } from '@/app/store'
 
-export const BASE_URL = '/api'
-// export const BASE_URL = 'http://localhost:3000/api'
+export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
 type ExtraOptions = {
 	headers?: Record<string, string>

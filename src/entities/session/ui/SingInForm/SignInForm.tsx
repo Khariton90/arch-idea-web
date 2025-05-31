@@ -42,7 +42,7 @@ export function SignInForm() {
 		<main className='main'>
 			<div className='container flex-center'>
 				<form
-					className={`${styles.form} form`}
+					className={`${styles.form}`}
 					autoComplete='off'
 					onSubmit={handleSubmit(onSubmit)}
 				>
